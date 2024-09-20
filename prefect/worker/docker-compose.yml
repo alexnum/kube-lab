@@ -1,0 +1,9 @@
+services:
+  notifier:
+    build:
+        context: .
+        dockerfile: Dockerfile
+    network_mode: "host"
+    command: "prefect --version"
+    command: ["sh", "-c", "prefect config set PREFECT_API_URL=http://prefect.axiusvm.local/api && prefect config set PREFECT_CLIENT_CSRF_SUPPORT_ENABLED=False && python worker.py"]
+    restart: always

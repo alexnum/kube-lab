@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: test-worker-deployment
+  labels:
+    app: test-worker
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: test-worker
+  template:
+    metadata:
+      labels:
+        app: test-worker
+    spec:
+      containers:
+      - name: test-worker
+        image: localhost/test_worker:latest
+        imagePullPolicy: IfNotPresent
+        command: ["/bin/bash", "--login", "-c"]
+#        args: ["/dev/null"]
+#        command: ["/bin/sh"]
+#        args: ["-c", "\"prefect --version\""]
+        args: ["prefect config set PREFECT_API_URL=http://prefect-server:4200/api && prefect config set PREFECT_CLIENT_CSRF_SUPPORT_ENABLED=False && python worker.py"]

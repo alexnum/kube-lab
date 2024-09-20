@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: openobs-secrets
+data:
+  obs_login: admin@mail.com
+  obs_password: admin
