@@ -12,3 +12,7 @@ shell:
 
 .PHONY: brun
 brun: build run
+
+.PHONY: send2k3s
+send2k3s:
+	podman save go-test:latest | sudo k3s ctr images import -
