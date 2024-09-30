@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: fluentd-secrets
+data:
+  fluent_obs_user: YWRtaW5AbWFpbC5jb20=
+  fluent_obs_password: aDR6SkpXMmljSHhCSHJjag==

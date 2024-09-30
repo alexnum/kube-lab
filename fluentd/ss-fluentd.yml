@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: ss-fluentd
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: fluentd
+  serviceName: "fluentd"
+  template:
+    metadata:
+      labels:
+        app: fluentd
+    spec:
+      terminationGracePeriodSeconds: 10
+      containers:
+      - name: fluentd
+        image: fluentd:v1.16-1
+        ports:
+        - containerPort: 24224
+          name: web
+        env:
+        - name: FLUENT_OPEN_OBS_USER #envvar name
+          valueFrom:
+            secretKeyRef: # get env from secret
+              name: fluentd-secrets # secret name
+              key: fluent_obs_user # secret key
+        - name: FLUENT_OPEN_OBS_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: fluentd-secrets
+              key: fluent_obs_password
+        volumeMounts:
+        - name: fluentddata
+          mountPath: /fluentd/etc/fluent.conf # The file path
+          subPath: fluent.openobs #The key in the configmap containing the file contents
+      volumes:
+      - name: fluentddata
+        configMap:
+          name: fluentd-config # ConfigMap name

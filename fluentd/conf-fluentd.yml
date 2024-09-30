@@ -1,0 +1,25 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: fluentd-config
+data:
+  fluent.openobs: |
+    # fluentd/conf/fluent.conf
+
+    <source>
+      @type forward
+      port 24224
+      bind 0.0.0.0
+    </source>
+
+    <match **>
+      @type http
+      endpoint "http://openobserve.default.svc.cluster.local:5080/api/default/fluent/_json"
+      content_type json
+      json_array true
+      <auth>
+        method basic
+        username "#{ENV['FLUENT_OPEN_OBS_USER']}"
+        password "#{ENV['FLUENT_OPEN_OBS_PASSWORD']}"
+      </auth>
+    </match>
