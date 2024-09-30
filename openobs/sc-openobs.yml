@@ -3,5 +3,5 @@ kind: Secret
 metadata:
   name: openobs-secrets
 data:
-  obs_login: admin@mail.com
-  obs_password: admin
+  obs_login: YWRtaW5AbWFpbC5jb20=
+  obs_password: YWRtaW4=
